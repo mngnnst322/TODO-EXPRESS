@@ -22,6 +22,7 @@ app.post("/api/todos", (req, res) => {
   todos.push(newTodo);
   return res.send(newTodo);
 });
+
 app.delete("/api/todos/:id", (req, res) => {
   const id = req.params.id;
   const deletingItem = todos.find((todo) => todo.id == id);
@@ -39,27 +40,30 @@ app.put("/api/todos/:id", (req, res) => {
     return res.status(404).send({ message: "Not found" });
   }
   const { name, checked } = req.body;
+
   console.log({ name, checked });
   console.log(!name);
   console.log(checked === undefined);
+
   if (!name || checked !== undefined) {
     return res
       .status(400)
       .send({ message: "Body must have atleast name or checked" });
   }
   const updatedTodo = {
-    ...uptadingItem,
+    ...updatingItem,
     ...(name && { name }),
     ...(checked !== undefined && { checked }),
   };
   todos = todos.map((todo) => {
     if (todo.id == id) {
       return updatedTodo;
-    }npm inanoid
+    }
     return todo;
   });
   return res.send(updatedTodo);
 });
+
 app.listen(5500, () => {
   console.log("App is running on http://localhost:5500");
 });
